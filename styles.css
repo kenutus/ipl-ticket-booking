@@ -1,0 +1,852 @@
+/* =========================================================
+   IPL 2026 Ticket Booking - styles.css
+   Theme: Dark Blue + Gold
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   1. THEME VARIABLES
+   --------------------------------------------------------- */
+:root {
+  /* Colours */
+  --primary: #0b2a6f;          /* dark blue - main brand colour */
+  --primary-dark: #061a47;     /* deep navy - navbar, footer   */
+  --primary-light: #1e4fb8;    /* lighter blue - highlights    */
+  --accent: #f5b400;           /* gold - buttons, highlights   */
+  --accent-dark: #d99a00;      /* darker gold - hover states   */
+  --bg: #f3f6fc;               /* page background              */
+  --bg-tint: #e8eefb;          /* tinted section background    */
+  --surface: #ffffff;          /* cards, tables, forms         */
+  --text: #1c2333;             /* main text                    */
+  --text-muted: #5b6478;       /* secondary text               */
+  --text-light: #ffffff;       /* text on dark backgrounds     */
+  --border: #dde3ef;
+  --danger: #d64545;
+
+  /* Shape, depth and motion */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 6px 20px rgba(6, 26, 71, 0.10);
+  --shadow-hover: 0 14px 30px rgba(6, 26, 71, 0.20);
+  --transition: 0.25s ease;
+
+  /* Layout */
+  --nav-height: 70px;
+  --max-width: 1100px;
+  --font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+
+/* ---------------------------------------------------------
+   2. BASE / RESET
+   --------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* stops section headings from hiding under the fixed navbar */
+  scroll-padding-top: var(--nav-height);
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+a {
+  color: var(--primary-light);
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+abbr {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--primary);
+  cursor: help;
+}
+
+time {
+  white-space: nowrap;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--primary-dark);
+}
+
+/* Visible focus ring for keyboard users */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+/* ---------------------------------------------------------
+   3. NAVIGATION BAR (fixed)
+   --------------------------------------------------------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: var(--primary-dark);
+  border-bottom: 3px solid var(--accent);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.25);
+}
+
+.navbar {
+  max-width: 1200px;
+  height: var(--nav-height);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  color: var(--accent);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.4rem;
+  list-style: none;
+}
+
+.nav-links a {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.95rem;
+  color: var(--text-light);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+/* Gold underline that grows on hover */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0.95rem;
+  right: 0.95rem;
+  bottom: 0.3rem;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+
+/* ---------------------------------------------------------
+   4. BUTTONS
+   --------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.9rem;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition),
+              background var(--transition), color var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--primary-dark);
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+}
+
+/* Outline button (white version for the dark hero) */
+.btn-secondary {
+  background: transparent;
+  color: var(--text-light);
+  border-color: var(--text-light);
+}
+
+.btn-secondary:hover {
+  background: var(--text-light);
+  color: var(--primary-dark);
+}
+
+/* Small "Book" button inside the schedule table */
+.btn-book {
+  padding: 0.45rem 1.2rem;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.btn-book:hover {
+  background: var(--accent);
+  color: var(--primary-dark);
+}
+
+
+/* ---------------------------------------------------------
+   5. BANNER (HERO) SECTION
+   --------------------------------------------------------- */
+.hero {
+  min-height: 88vh;
+  padding: calc(var(--nav-height) + 3rem) 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-light);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(245, 180, 0, 0.28), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(30, 79, 184, 0.55), transparent 45%),
+    linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, var(--primary-light) 100%);
+}
+
+.hero h1 {
+  max-width: 850px;
+  margin-bottom: 1.2rem;
+  font-size: clamp(2.1rem, 5.5vw, 3.8rem);
+  font-weight: 800;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+
+.hero-text {
+  max-width: 640px;
+  margin-bottom: 2.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  opacity: 0.9;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+
+/* ---------------------------------------------------------
+   6. COMMON SECTION LAYOUT
+   --------------------------------------------------------- */
+/* Full-width background, content centred within --max-width */
+main > section:not(.hero) {
+  padding: 4.5rem max(1.5rem, calc((100% - var(--max-width)) / 2));
+}
+
+.about,
+.my-bookings {
+  background: var(--surface);
+}
+
+.booking {
+  background: var(--bg-tint);
+}
+
+/* Section headings with a gold underline */
+main > section > h2 {
+  margin-bottom: 2.2rem;
+  text-align: center;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  color: var(--primary);
+}
+
+main > section > h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 4px;
+  margin: 0.7rem auto 0;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+
+/* ---------------------------------------------------------
+   7. ABOUT IPL 2026
+   --------------------------------------------------------- */
+.about > p {
+  max-width: 760px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.about-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.75rem;
+}
+
+.about-block {
+  padding: 1.8rem;
+  background: var(--bg);
+  border-left: 5px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.about-block h3 {
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-size: 1.25rem;
+}
+
+.team-list,
+.venue-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.55rem;
+}
+
+.team-list li,
+.venue-list li {
+  padding: 0.55rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.team-list li::before,
+.venue-list li::before {
+  content: "\25B8";            /* small triangle */
+  margin-right: 0.45rem;
+  color: var(--accent-dark);
+}
+
+.team-list li:hover,
+.venue-list li:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+
+/* ---------------------------------------------------------
+   8. TABLES (Match Schedule + My Bookings)
+   --------------------------------------------------------- */
+.team-filter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.team-filter select {
+  padding: 0.55rem 1rem;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.team-filter select:hover,
+.team-filter select:focus {
+  border-color: var(--accent);
+}
+
+/* Wrapper gives rounded corners + horizontal scroll on small screens */
+.table-wrapper {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+caption {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--primary);
+  border-bottom: 3px solid var(--accent);
+}
+
+th,
+td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  background: var(--primary);
+  color: var(--text-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* "Ticket Prices" group heading */
+.schedule-table thead th[colspan] {
+  text-align: center;
+  background: var(--primary-dark);
+  color: var(--accent);
+}
+
+/* General / Premium / VIP sub-headings */
+.schedule-table thead tr:nth-child(2) th {
+  text-align: center;
+  background: var(--primary-light);
+}
+
+/* Price and action columns */
+.schedule-table td:nth-child(n+5) {
+  text-align: center;
+  font-weight: 600;
+}
+
+.schedule-table td:nth-child(7) {
+  color: var(--accent-dark);   /* VIP price in gold */
+}
+
+tbody tr:nth-child(even) {
+  background: #f7f9fe;
+}
+
+tbody tr {
+  transition: background var(--transition);
+}
+
+tbody tr:hover {
+  background: #fff6dc;
+}
+
+/* Empty "My Bookings" placeholder row */
+.empty-row td {
+  padding: 2.8rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+tbody tr.empty-row:hover {
+  background: transparent;
+}
+
+
+/* ---------------------------------------------------------
+   9. BOOKING FORM + SUMMARY CARD
+   --------------------------------------------------------- */
+.booking-container {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;   /* form | summary side by side */
+  gap: 2rem;
+  align-items: start;
+}
+
+.booking-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.3rem;
+  padding: 2.2rem;
+  background: var(--surface);
+  border-top: 5px solid var(--primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Fields that take the full width of the form */
+.booking-form > .form-group:first-child,
+.stand-group,
+.form-actions {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group > label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #fbfcff;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(245, 180, 0, 0.25);
+}
+
+/* Red border once the user has typed something invalid */
+.form-group input:not(:placeholder-shown):invalid {
+  border-color: var(--danger);
+}
+
+.form-group small {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Stand category radio buttons shown as selectable tiles */
+.stand-group {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.stand-group legend {
+  padding: 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.stand-group label {
+  flex: 1 1 120px;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.stand-group label:hover {
+  border-color: var(--accent);
+  background: #fff8e5;
+}
+
+.stand-group label:has(input:checked) {
+  border-color: var(--accent);
+  background: #fff1c2;
+}
+
+.stand-group input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--primary);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+
+/* Outline button needs dark colours on the white form */
+.form-actions .btn-secondary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.form-actions .btn-secondary:hover {
+  background: var(--primary);
+  color: var(--text-light);
+}
+
+/* Summary card styled like a ticket */
+.summary-card {
+  position: sticky;
+  top: calc(var(--nav-height) + 1.5rem);
+  padding: 2rem;
+  color: var(--text-light);
+  background: linear-gradient(160deg, var(--primary-dark), var(--primary));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+}
+
+.summary-card h3 {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.9rem;
+  color: var(--accent);
+  font-size: 1.35rem;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.summary-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: 0.8rem;
+}
+
+.summary-details dt {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.summary-details dd {
+  padding-left: 1rem;
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Total amount row */
+.summary-details dt:last-of-type,
+.summary-details dd:last-of-type {
+  margin-top: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 2px solid var(--accent);
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.summary-details dd:last-of-type strong {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+
+/* ---------------------------------------------------------
+   10. GUIDELINE CARDS
+   --------------------------------------------------------- */
+.guideline-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.75rem;
+  counter-reset: card;
+}
+
+.guideline-card {
+  padding: 2rem 1.8rem;
+  background: var(--surface);
+  border-top: 5px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.guideline-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.guideline-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+/* Numbered gold-on-blue badge before each card title */
+.guideline-card h3::before {
+  counter-increment: card;
+  content: counter(card);
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.guideline-card p {
+  color: var(--text-muted);
+}
+
+.guideline-card ul {
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.guideline-card li {
+  position: relative;
+  padding-left: 1.6rem;
+  color: var(--text-muted);
+}
+
+.guideline-card li::before {
+  content: "\2715";            /* cross mark */
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--danger);
+}
+
+
+/* ---------------------------------------------------------
+   11. FOOTER
+   --------------------------------------------------------- */
+.site-footer {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  background: var(--primary-dark);
+  border-top: 4px solid var(--accent);
+}
+
+.site-footer p + p {
+  margin-top: 0.5rem;
+}
+
+.site-footer small {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.site-footer a {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------
+   12. RESPONSIVE DESIGN
+   --------------------------------------------------------- */
+/* Tablets: stack the form and the summary card */
+@media (max-width: 900px) {
+  .booking-container {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    position: static;
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  :root {
+    --nav-height: 90px;
+  }
+
+  /* Logo on top, links in a row underneath; height grows if needed */
+  .navbar {
+    height: auto;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.6rem 0.5rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .nav-links a {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.85rem;
+  }
+
+  .nav-links a::after {
+    left: 0.55rem;
+    right: 0.55rem;
+    bottom: 0.15rem;
+  }
+
+  .hero {
+    min-height: 80vh;
+  }
+
+  main > section:not(.hero) {
+    padding: 3rem 1rem;
+  }
+
+  .about-lists {
+    grid-template-columns: 1fr;
+  }
+
+  .about-block {
+    padding: 1.3rem;
+  }
+
+  .team-filter {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .booking-form {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .form-actions .btn {
+    flex: 1;
+  }
+}
