@@ -16,7 +16,13 @@
   <header class="site-header">
     <nav class="navbar" aria-label="Main navigation">
       <a href="#home" class="logo">IPL Tickets 2026</a>
-      <ul class="nav-links">
+      <!-- Hamburger button: only visible on tablets and phones (Activity 8) -->
+      <button type="button" class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul id="nav-links" class="nav-links">
         <li><a href="#schedule">Matches</a></li>
         <li><a href="#booking">Book Ticket</a></li>
         <li><a href="#my-bookings">My Bookings</a></li>
@@ -87,106 +93,122 @@
     <section id="schedule" class="schedule" aria-labelledby="schedule-heading">
       <h2 id="schedule-heading">Match Schedule</h2>
 
-      <!-- Team Filter (will be made functional with JavaScript later) -->
-      <div class="team-filter">
-        <label for="team-filter">Filter by Team:</label>
-        <select id="team-filter" name="team-filter">
-          <option value="all" selected>All Teams</option>
-          <option value="CSK">Chennai Super Kings</option>
-          <option value="MI">Mumbai Indians</option>
-          <option value="RCB">Royal Challengers Bengaluru</option>
-          <option value="KKR">Kolkata Knight Riders</option>
-          <option value="SRH">Sunrisers Hyderabad</option>
-          <option value="RR">Rajasthan Royals</option>
-          <option value="DC">Delhi Capitals</option>
-          <option value="PBKS">Punjab Kings</option>
-          <option value="GT">Gujarat Titans</option>
-          <option value="LSG">Lucknow Super Giants</option>
-        </select>
+      <!-- Team filter and grid/list toggle (Activity 8) -->
+      <div class="schedule-toolbar">
+        <div class="team-filter">
+          <label for="team-filter">Filter by Team:</label>
+          <select id="team-filter" name="team-filter">
+            <option value="all" selected>All Teams</option>
+            <option value="CSK">Chennai Super Kings</option>
+            <option value="MI">Mumbai Indians</option>
+            <option value="RCB">Royal Challengers Bengaluru</option>
+            <option value="KKR">Kolkata Knight Riders</option>
+            <option value="SRH">Sunrisers Hyderabad</option>
+            <option value="RR">Rajasthan Royals</option>
+            <option value="DC">Delhi Capitals</option>
+            <option value="PBKS">Punjab Kings</option>
+            <option value="GT">Gujarat Titans</option>
+            <option value="LSG">Lucknow Super Giants</option>
+          </select>
+        </div>
+
+        <button type="button" id="view-toggle" class="btn btn-view">Switch to List View</button>
       </div>
 
-      <!-- Wrapper lets the table scroll sideways on small screens -->
-      <div class="table-wrapper">
-        <table class="schedule-table">
-          <caption>Upcoming IPL 2026 Matches (sample fixtures)</caption>
-          <thead>
-            <tr>
-              <th scope="col" rowspan="2">Match No.</th>
-              <th scope="col" rowspan="2">Teams</th>
-              <th scope="col" rowspan="2">Date &amp; Time</th>
-              <th scope="col" rowspan="2">Venue</th>
-              <th scope="colgroup" colspan="3">Ticket Prices (₹)</th>
-              <th scope="col" rowspan="2">Action</th>
-            </tr>
-            <tr>
-              <th scope="col">General</th>
-              <th scope="col">Premium</th>
-              <th scope="col">VIP</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-teams="CSK MI">
-              <td>1</td>
-              <td><abbr title="Chennai Super Kings">CSK</abbr> vs <abbr title="Mumbai Indians">MI</abbr></td>
-              <td><time datetime="2026-03-28T19:30">28 Mar 2026, 7:30 PM</time></td>
-              <td>M. A. Chidambaram Stadium, Chennai</td>
-              <td>₹1,500</td>
-              <td>₹3,500</td>
-              <td>₹8,000</td>
-              <td><a href="#booking" class="btn btn-book" data-match="1">Book</a></td>
-            </tr>
-            <tr data-teams="RCB KKR">
-              <td>2</td>
-              <td><abbr title="Royal Challengers Bengaluru">RCB</abbr> vs <abbr title="Kolkata Knight Riders">KKR</abbr></td>
-              <td><time datetime="2026-03-29T15:30">29 Mar 2026, 3:30 PM</time></td>
-              <td>M. Chinnaswamy Stadium, Bengaluru</td>
-              <td>₹1,800</td>
-              <td>₹4,000</td>
-              <td>₹9,000</td>
-              <td><a href="#booking" class="btn btn-book" data-match="2">Book</a></td>
-            </tr>
-            <tr data-teams="GT RR">
-              <td>3</td>
-              <td><abbr title="Gujarat Titans">GT</abbr> vs <abbr title="Rajasthan Royals">RR</abbr></td>
-              <td><time datetime="2026-03-30T19:30">30 Mar 2026, 7:30 PM</time></td>
-              <td>Narendra Modi Stadium, Ahmedabad</td>
-              <td>₹1,000</td>
-              <td>₹2,500</td>
-              <td>₹6,000</td>
-              <td><a href="#booking" class="btn btn-book" data-match="3">Book</a></td>
-            </tr>
-            <tr data-teams="DC SRH">
-              <td>4</td>
-              <td><abbr title="Delhi Capitals">DC</abbr> vs <abbr title="Sunrisers Hyderabad">SRH</abbr></td>
-              <td><time datetime="2026-03-31T19:30">31 Mar 2026, 7:30 PM</time></td>
-              <td>Arun Jaitley Stadium, Delhi</td>
-              <td>₹1,200</td>
-              <td>₹3,000</td>
-              <td>₹7,000</td>
-              <td><a href="#booking" class="btn btn-book" data-match="4">Book</a></td>
-            </tr>
-            <tr data-teams="KKR PBKS">
-              <td>5</td>
-              <td><abbr title="Kolkata Knight Riders">KKR</abbr> vs <abbr title="Punjab Kings">PBKS</abbr></td>
-              <td><time datetime="2026-04-01T19:30">01 Apr 2026, 7:30 PM</time></td>
-              <td>Eden Gardens, Kolkata</td>
-              <td>₹1,300</td>
-              <td>₹3,200</td>
-              <td>₹7,500</td>
-              <td><a href="#booking" class="btn btn-book" data-match="5">Book</a></td>
-            </tr>
-            <tr data-teams="MI LSG">
-              <td>6</td>
-              <td><abbr title="Mumbai Indians">MI</abbr> vs <abbr title="Lucknow Super Giants">LSG</abbr></td>
-              <td><time datetime="2026-04-02T19:30">02 Apr 2026, 7:30 PM</time></td>
-              <td>Wankhede Stadium, Mumbai</td>
-              <td>₹2,000</td>
-              <td>₹4,500</td>
-              <td>₹10,000</td>
-              <td><a href="#booking" class="btn btn-book" data-match="6">Book</a></td>
-            </tr>
-          </tbody>
-        </table>
+      <p class="schedule-note">Upcoming IPL 2026 matches (sample fixtures). Ticket prices are per seat.</p>
+      <p id="match-count" class="match-count" aria-live="polite">Showing 6 of 6 matches</p>
+
+      <!-- Match cards laid out with CSS Grid -->
+      <div id="match-grid" class="match-grid">
+        <article class="match-card" data-match="1" data-teams="CSK MI">
+          <div class="match-info">
+            <p class="match-number">Match 1</p>
+            <h3 class="match-teams"><abbr title="Chennai Super Kings">CSK</abbr> vs <abbr title="Mumbai Indians">MI</abbr></h3>
+            <p class="match-date"><time datetime="2026-03-28T19:30">28 Mar 2026, 7:30 PM</time></p>
+            <p class="match-venue">M. A. Chidambaram Stadium, Chennai</p>
+          </div>
+          <dl class="match-prices">
+            <div><dt>General</dt><dd data-stand="General">₹1,500</dd></div>
+            <div><dt>Premium</dt><dd data-stand="Premium">₹3,500</dd></div>
+            <div><dt>VIP</dt><dd data-stand="VIP">₹8,000</dd></div>
+          </dl>
+          <a href="#booking" class="btn btn-book" data-match="1">Book</a>
+        </article>
+
+        <article class="match-card" data-match="2" data-teams="RCB KKR">
+          <div class="match-info">
+            <p class="match-number">Match 2</p>
+            <h3 class="match-teams"><abbr title="Royal Challengers Bengaluru">RCB</abbr> vs <abbr title="Kolkata Knight Riders">KKR</abbr></h3>
+            <p class="match-date"><time datetime="2026-03-29T15:30">29 Mar 2026, 3:30 PM</time></p>
+            <p class="match-venue">M. Chinnaswamy Stadium, Bengaluru</p>
+          </div>
+          <dl class="match-prices">
+            <div><dt>General</dt><dd data-stand="General">₹1,800</dd></div>
+            <div><dt>Premium</dt><dd data-stand="Premium">₹4,000</dd></div>
+            <div><dt>VIP</dt><dd data-stand="VIP">₹9,000</dd></div>
+          </dl>
+          <a href="#booking" class="btn btn-book" data-match="2">Book</a>
+        </article>
+
+        <article class="match-card" data-match="3" data-teams="GT RR">
+          <div class="match-info">
+            <p class="match-number">Match 3</p>
+            <h3 class="match-teams"><abbr title="Gujarat Titans">GT</abbr> vs <abbr title="Rajasthan Royals">RR</abbr></h3>
+            <p class="match-date"><time datetime="2026-03-30T19:30">30 Mar 2026, 7:30 PM</time></p>
+            <p class="match-venue">Narendra Modi Stadium, Ahmedabad</p>
+          </div>
+          <dl class="match-prices">
+            <div><dt>General</dt><dd data-stand="General">₹1,000</dd></div>
+            <div><dt>Premium</dt><dd data-stand="Premium">₹2,500</dd></div>
+            <div><dt>VIP</dt><dd data-stand="VIP">₹6,000</dd></div>
+          </dl>
+          <a href="#booking" class="btn btn-book" data-match="3">Book</a>
+        </article>
+
+        <article class="match-card" data-match="4" data-teams="DC SRH">
+          <div class="match-info">
+            <p class="match-number">Match 4</p>
+            <h3 class="match-teams"><abbr title="Delhi Capitals">DC</abbr> vs <abbr title="Sunrisers Hyderabad">SRH</abbr></h3>
+            <p class="match-date"><time datetime="2026-03-31T19:30">31 Mar 2026, 7:30 PM</time></p>
+            <p class="match-venue">Arun Jaitley Stadium, Delhi</p>
+          </div>
+          <dl class="match-prices">
+            <div><dt>General</dt><dd data-stand="General">₹1,200</dd></div>
+            <div><dt>Premium</dt><dd data-stand="Premium">₹3,000</dd></div>
+            <div><dt>VIP</dt><dd data-stand="VIP">₹7,000</dd></div>
+          </dl>
+          <a href="#booking" class="btn btn-book" data-match="4">Book</a>
+        </article>
+
+        <article class="match-card" data-match="5" data-teams="KKR PBKS">
+          <div class="match-info">
+            <p class="match-number">Match 5</p>
+            <h3 class="match-teams"><abbr title="Kolkata Knight Riders">KKR</abbr> vs <abbr title="Punjab Kings">PBKS</abbr></h3>
+            <p class="match-date"><time datetime="2026-04-01T19:30">01 Apr 2026, 7:30 PM</time></p>
+            <p class="match-venue">Eden Gardens, Kolkata</p>
+          </div>
+          <dl class="match-prices">
+            <div><dt>General</dt><dd data-stand="General">₹1,300</dd></div>
+            <div><dt>Premium</dt><dd data-stand="Premium">₹3,200</dd></div>
+            <div><dt>VIP</dt><dd data-stand="VIP">₹7,500</dd></div>
+          </dl>
+          <a href="#booking" class="btn btn-book" data-match="5">Book</a>
+        </article>
+
+        <article class="match-card" data-match="6" data-teams="MI LSG">
+          <div class="match-info">
+            <p class="match-number">Match 6</p>
+            <h3 class="match-teams"><abbr title="Mumbai Indians">MI</abbr> vs <abbr title="Lucknow Super Giants">LSG</abbr></h3>
+            <p class="match-date"><time datetime="2026-04-02T19:30">02 Apr 2026, 7:30 PM</time></p>
+            <p class="match-venue">Wankhede Stadium, Mumbai</p>
+          </div>
+          <dl class="match-prices">
+            <div><dt>General</dt><dd data-stand="General">₹2,000</dd></div>
+            <div><dt>Premium</dt><dd data-stand="Premium">₹4,500</dd></div>
+            <div><dt>VIP</dt><dd data-stand="VIP">₹10,000</dd></div>
+          </dl>
+          <a href="#booking" class="btn btn-book" data-match="6">Book</a>
+        </article>
       </div>
     </section>
 

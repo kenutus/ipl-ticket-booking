@@ -2,6 +2,7 @@
    IPL 2026 Ticket Booking - app.js
    Activity 5: JavaScript Basics and User Interaction
    Activity 7: Form Selectors and Live Booking Summary
+   Activity 8: Hamburger Menu, Team Filter, Grid/List View
    ========================================================= */
 
 
@@ -24,9 +25,6 @@ const summaryStand = document.getElementById("summary-stand");
 const summaryPrice = document.getElementById("summary-price");
 const summaryQty = document.getElementById("summary-qty");
 const summaryTotal = document.querySelector("#summary-total strong");
-
-// Position of each price column in the schedule table (counting starts at 0)
-const PRICE_COLUMN = { General: 4, Premium: 5, VIP: 6 };
 
 // One container holds all toasts. It is created once, when the page loads.
 const toastContainer = document.createElement("div");
@@ -70,7 +68,7 @@ bookButtons.forEach((button) => {
 
     // Pre-select the clicked match in the dropdown
     const matchNumber = button.dataset.match;              // from data-match="1"
-    const teams = button.closest("tr").dataset.teams;      // from data-teams="CSK MI"
+    const teams = button.closest(".match-card").dataset.teams; // from data-teams="CSK MI"
     matchSelect.value = matchNumber;
     updateSummary(); // setting a value in code does not fire "change"
 
@@ -111,31 +109,31 @@ function updateSummary() {
   const isValidQty = ticketsInput.validity.valid;
   const quantity = isValidQty ? Number(ticketsInput.value) : 0;
 
-  // Match details and prices come from the schedule table row
-  let row = null;
+  // Match details and prices come from the match card
+  let card = null;
   if (matchNumber) {
-    row = document.querySelector(`.btn-book[data-match="${matchNumber}"]`).closest("tr");
+    card = document.querySelector(`.match-card[data-match="${matchNumber}"]`);
   }
 
   let price = 0;
-  if (row && stand) {
-    const priceText = row.cells[PRICE_COLUMN[stand]].textContent; // "₹1,500"
-    price = Number(priceText.replace(/[^0-9]/g, ""));             // 1500
+  if (card && stand) {
+    const priceText = card.querySelector(`[data-stand="${stand}"]`).textContent; // "₹1,500"
+    price = Number(priceText.replace(/[^0-9]/g, ""));                           // 1500
   }
 
   const total = price * quantity;
 
   // textContent updates the page without reloading it
-  summaryMatch.textContent = row ? row.cells[1].textContent.trim() : "Not selected";
-  summaryDateTime.textContent = row ? row.cells[2].textContent.trim() : "-";
-  summaryVenue.textContent = row ? row.cells[3].textContent.trim() : "-";
+  summaryMatch.textContent = card ? card.querySelector(".match-teams").textContent.trim() : "Not selected";
+  summaryDateTime.textContent = card ? card.querySelector(".match-date").textContent.trim() : "-";
+  summaryVenue.textContent = card ? card.querySelector(".match-venue").textContent.trim() : "-";
   summaryStand.textContent = stand || "Not selected";
   summaryPrice.textContent = formatRupees(price);
   summaryQty.textContent = quantity;
   summaryTotal.textContent = formatRupees(total);
 
   // Send the results back so the caller can choose a toast message
-  return { isValidQty, isComplete: Boolean(row && stand && isValidQty), total };
+  return { isValidQty, isComplete: Boolean(card && stand && isValidQty), total };
 }
 
 // Runs when the user changes the match, stand or quantity
@@ -163,3 +161,78 @@ if (bookingForm) {
   // Show the form's starting values when the page loads
   updateSummary();
 }
+
+
+/* ---------------------------------------------------------
+   6. HAMBURGER MENU (Activity 8)
+   --------------------------------------------------------- */
+const navToggle = document.querySelector(".nav-toggle");
+const navLinks = document.getElementById("nav-links");
+
+// Opens or closes the menu by adding or removing the "open" class
+function setMenu(isOpen) {
+  navLinks.classList.toggle("open", isOpen);
+  navToggle.setAttribute("aria-expanded", isOpen);
+  navToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+}
+
+navToggle.addEventListener("click", () => {
+  setMenu(!navLinks.classList.contains("open"));
+});
+
+// Close the menu after a link is chosen
+navLinks.addEventListener("click", (event) => {
+  if (event.target.closest("a")) setMenu(false);
+});
+
+// Close the menu with the Escape key
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && navLinks.classList.contains("open")) {
+    setMenu(false);
+    navToggle.focus();
+  }
+});
+
+// Reset the menu if the window is widened to desktop size
+window.matchMedia("(min-width: 901px)").addEventListener("change", (event) => {
+  if (event.matches) setMenu(false);
+});
+
+
+/* ---------------------------------------------------------
+   7. FILTER MATCH CARDS BY TEAM (Activity 8)
+   --------------------------------------------------------- */
+const teamFilter = document.getElementById("team-filter");
+const matchCards = document.querySelectorAll(".match-card");
+const matchCount = document.getElementById("match-count");
+
+function filterMatches() {
+  const selectedTeam = teamFilter.value; // "all", "CSK", "MI", ...
+  let visibleCount = 0;
+
+  matchCards.forEach((card) => {
+    const teams = card.dataset.teams.split(" "); // "CSK MI" -> ["CSK", "MI"]
+    const isMatch = selectedTeam === "all" || teams.includes(selectedTeam);
+
+    card.hidden = !isMatch;
+    if (isMatch) visibleCount++;
+  });
+
+  matchCount.textContent = `Showing ${visibleCount} of ${matchCards.length} matches`;
+}
+
+teamFilter.addEventListener("change", filterMatches);
+filterMatches(); // the browser may remember the dropdown value after a reload
+
+
+/* ---------------------------------------------------------
+   8. GRID / LIST VIEW TOGGLE (Activity 8)
+   --------------------------------------------------------- */
+const matchGrid = document.getElementById("match-grid");
+const viewToggle = document.getElementById("view-toggle");
+
+viewToggle.addEventListener("click", () => {
+  // toggle() returns true when the class has just been added
+  const isListView = matchGrid.classList.toggle("list-view");
+  viewToggle.textContent = isListView ? "Switch to Grid View" : "Switch to List View";
+});
