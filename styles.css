@@ -850,3 +850,50 @@ tbody tr.empty-row:hover {
     flex: 1;
   }
 }
+
+
+/* ---------------------------------------------------------
+   13. TOAST NOTIFICATIONS (Activity 5)
+   --------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 2000;               /* above the fixed navbar */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: min(360px, calc(100% - 2.5rem));
+  pointer-events: none;        /* never blocks clicks on the page */
+}
+
+.toast {
+  padding: 0.9rem 1.2rem;
+  color: var(--text-light);
+  font-weight: 600;
+  background: var(--primary-dark);
+  border-left: 6px solid var(--accent);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-hover);
+  animation: toast-in 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast-success { border-left-color: #2fbf71; }
+.toast-info    { border-left-color: var(--accent); }
+.toast-error   { border-left-color: var(--danger); }
+
+.toast-hide {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Small gap between the fixed navbar and the form after scrolling */
+.booking-form {
+  scroll-margin-top: 1rem;
+}
