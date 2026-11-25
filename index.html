@@ -213,21 +213,16 @@
             </select>
           </div>
 
-          <fieldset class="form-group stand-group">
-            <legend>Stand Category</legend>
-            <label for="stand-general">
-              <input type="radio" id="stand-general" name="stand" value="General" required>
-              General
-            </label>
-            <label for="stand-premium">
-              <input type="radio" id="stand-premium" name="stand" value="Premium">
-              Premium
-            </label>
-            <label for="stand-vip">
-              <input type="radio" id="stand-vip" name="stand" value="VIP">
-              VIP
-            </label>
-          </fieldset>
+          <!-- Stand Category dropdown (Activity 7) -->
+          <div class="form-group full-width">
+            <label for="stand">Stand Category</label>
+            <select id="stand" name="stand" required>
+              <option value="" disabled selected>-- Choose a stand --</option>
+              <option value="General">General</option>
+              <option value="Premium">Premium</option>
+              <option value="VIP">VIP</option>
+            </select>
+          </div>
 
           <div class="form-group">
             <label for="tickets">Number of Tickets</label>
